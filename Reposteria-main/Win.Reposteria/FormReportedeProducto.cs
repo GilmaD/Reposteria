@@ -1,4 +1,5 @@
-﻿using System;
+using BL.Reposteria;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -10,11 +11,21 @@ using System.Windows.Forms;
 
 namespace Win.Rentas
 {
-    public partial class FormReportedeProducto : Form
+    public partial class FormReporteProducto : Form
     {
-        public FormReportedeProducto()
+        public FormReporteProducto()
         {
             InitializeComponent();
+
+            var _productoBL = new ProductosBL();
+            var bindingSource = new BindingSource();
+            bindingSource.DataSource = _productoBL.ObtenerProductos();
+
+            var reporte = new ReporteProductos();
+            reporte.SetDataSource(bindingSource);
+
+            crystalReportViewer1.ReportSource = reporte;
+            crystalReportViewer1.RefreshReport();
         }
     }
 }
